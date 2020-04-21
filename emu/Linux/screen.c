@@ -69,20 +69,13 @@ touchscreenc(struct input_event* ev, int count)
     static struct timeval lastt;
 
     for (i=0; i < count; i++){
-	printf("ev[%d]: type = 0x%x, code = 0x%x, value = 0x%x\n", i, ev[i].type, ev[i].code, ev[i].value);
+	printf("touchscreenc ev[%d]: type = 0x%x, code = 0x%x, value = 0x%x\n", i, ev[i].type, ev[i].code, ev[i].value);
 	/*if(0) {
 		fprint(2, "%d/%d [%d] ", i, count, ev[i].code);
 	}*/
 	switch(ev[i].type){
 	case EV_ABS:
 		switch(ev[i].code){
-		case 0x30:		// ABS_MT_TOUCH_MAJOR
-			if (ev[i].value) {
-				b = 1;
-			} else if (ev[i].value == 0) {
-				b = 0;
-			}
-			break;
 		case 0x36:		// ABS_MT_POSITION_X
 			if(rotation_opt) {
 				if (ev[i].value > lowx)
@@ -113,6 +106,16 @@ touchscreenc(struct input_event* ev, int count)
 				break;
 			}
 			break;
+		}
+		break;
+	case EV_KEY:
+		switch(ev[i].code){
+			case 0x14a:	//BTN_TOUCH
+				if (ev[i].value) {
+					b = 1;
+				} else {
+					b = 0;
+				}
 		}
 		break;
 	case EV_SYN:
@@ -366,14 +369,7 @@ attachscreen ( Rectangle *rect, ulong *chan, int *depth, int *width, int *softsc
     }
 
 	eventfd = open(mousefile, O_RDONLY);
-	if (type == 'c') {
-		//for Nook Color
-		kproc("readmouse", fbreadmouse, &touchscreenc, 0);
-	}
-	else if (type == 'e')
-		kproc("readmouse", fbreadmouse, &touchscreene, 0);
-	else
-		kproc("readmouse", fbreadmouse, &touchscreens, 0);
+	kproc("readmouse", fbreadmouse, &touchscreenc, 0);
 
 	//sprintf(mainbuttoninput, "/dev/input/event%d", maineventnum);
 	//mainbuttonfd = open(mainbuttoninput, O_RDONLY);
@@ -505,7 +501,6 @@ initscreen ( int aXSize, int aYSize, ulong *chan, int *depth )
 void 
 setpointer ( int x, int y )
 {
-	printf("setpointer called!\n");
     if ( !framebuffer || !screendata )
 	return;
     if(rotation_opt) {

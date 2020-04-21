@@ -76,7 +76,6 @@ printf("blanking\n");
 	screeninfo_cur.accel_flags = 0;
 	if ( ioctl ( framebuffer, FBIOPUT_VSCREENINFO, &screeninfo_cur ) ) {
 		close ( framebuffer );
-		printf("yuck2\n");
 		return -1;
 	}
 

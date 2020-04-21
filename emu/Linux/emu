@@ -1,3 +1,6 @@
+env
+	X11LIBS=
+
 dev
 	root
 	cons
@@ -15,9 +18,9 @@ dev
 	indir
 	ds
 
-	draw	win-x11a
+	draw	screen
 	pointer
-	snarf
+#	snarf
 
 	ip	ipif6-posix ipaux
 	eia

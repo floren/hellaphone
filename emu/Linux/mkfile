@@ -23,6 +23,7 @@ OBJ=\
 	asm-$OBJTYPE.$O\
 	$ARCHFILES\
 	os.$O\
+	framebuffer.$O\
 	kproc-pthreads.$O\
 	segflush-$OBJTYPE.$O\
 	$CONF.root.$O\

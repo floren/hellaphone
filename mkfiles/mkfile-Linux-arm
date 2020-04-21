@@ -5,24 +5,26 @@ CPUS=		arm
 O=		o
 OS=		o
 
-AR=		ar
+AR=		arm-linux-gnueabihf-ar
 ARFLAGS=	ruvs
 
-AS=		arm-gcc -c 
-ASFLAGS=
+AS=		arm-linux-gnueabihf-gcc -c 
+ASFLAGS=	-DARMv7
 
-CC=		arm-gcc -c 
+CC=		arm-linux-gnueabihf-gcc -c 
 CFLAGS=		-O\
 		-Wuninitialized -Wunused-variable -Wreturn-type -Wimplicit\
 		-I$ROOT/Linux/arm/include\
 		-I$ROOT/include\
-		-DLINUX_ARM
+		-DLINUX_ARM 
 
 ANSICPP=
-LD=		arm-gcc 
+LD=		arm-linux-gnueabihf-gcc
 LDFLAGS=	
 
 SYSLIBS=
 
 YACC=		iyacc
 YFLAGS=		-d
+
+RANLIB=                arm-linux-gnueabihf-ranlib

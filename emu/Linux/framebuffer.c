@@ -37,6 +37,7 @@ int framebuffer_init ( )
 {
 	int fd = -1;
 printf("init\n");
+/*
 	if (!access("/dev/tty0", F_OK)) {
 		fd = open("/dev/tty0", O_RDWR | O_SYNC);
 		if(fd < 0) {
@@ -45,11 +46,12 @@ printf("init\n");
 		}
 
 		if(ioctl(fd, KDSETMODE, (void*) KD_GRAPHICS)) {
-			printf("failed to set mode\n");
+			printf("failed to set mode: %s\n", strerror(errno));
 			close(fd);
 			return -1;
 		}
 	}
+*/
 printf("access ok\n");
 	framebuffer = open ( "/dev/fb0", O_RDWR );
 	if ( framebuffer < 0 ) {
